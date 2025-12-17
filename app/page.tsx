@@ -12,6 +12,7 @@ import { SPACING } from "@/lib/constants"
 const calendarSrc =
   "https://calendar.google.com/calendar/u/0/embed?src=pgo2gfducbn70d2eqfbchquopo@group.calendar.google.com&ctz=Europe/Madrid&pli=1"
 
+
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
