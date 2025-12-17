@@ -7,11 +7,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import texts from "@/texts.json"
 import { SPACING } from "@/lib/constants"
 
-
-
 const calendarSrc =
   "https://calendar.google.com/calendar/u/0/embed?src=pgo2gfducbn70d2eqfbchquopo@group.calendar.google.com&ctz=Europe/Madrid&pli=1"
-
 
 export default function HomePage() {
   return (
@@ -33,24 +30,24 @@ export default function HomePage() {
             <div className={`grid lg:grid-cols-2 ${SPACING.contentGap} items-center`}>
               <div className={SPACING.itemsGap}>
                 <h2
-                  className={`text-5xl font-bold ${SPACING.smallMargin} text-balance font-display text-card md:text-5xl`}
+                  className={`text-6xl font-bold ${SPACING.smallMargin} text-balance font-display text-card md:text-6xl mb-8`  }
                 >
                   {texts.home.hero.heading}
                 </h2>
 
-                <p className="text-3xl text-pretty leading-relaxed text-card">{texts.home.hero.subtitle}</p>
-                <p className="text-xl leading-relaxed text-card mb-2.5">{texts.home.hero.description}</p>
+                <p className="text-3xl leading-tight text-pretty text-card leading-7 leading-tighter tracking-wide my-3">{texts.home.hero.subtitle}</p>
+                <p className="text-xl leading-relaxed text-card mb-2.5 leading-7 tracking-wide">{texts.home.hero.description}</p>
 
                 <ul className="space-y-3">
                   {texts.home.hero.features.map((feature, i) => (
                     <li key={i} className="flex gap-3 items-center">
                       <MeepleIcon className="h-8 w-8 text-accent shrink-0 mt-0.5" />
-                      <span className="text-xl text-card">{feature}</span>
+                      <span className="text-xl text-card tracking-wide">{feature}</span>
                     </li>
                   ))}
                 </ul>
 
-                <p className="text-xl leading-relaxed text-card mt-2.5 mb-10">{texts.home.hero.callToAction}</p>
+                <p className="text-xl leading-relaxed text-card mt-2.5 mb-10 tracking-wide">{texts.home.hero.callToAction}</p>
 
                 <div className="text-center">
                   <Button
@@ -81,17 +78,17 @@ export default function HomePage() {
         {/* First Steps */}
         <section className={`${SPACING.section} text-primary-foreground bg-secondary text-center`}>
           <div className="inline-block">
-            <h3 className="font-semibold font-display mb-9 text-5xl">{texts.home.firstSteps.title}</h3>
+            <h3 className="font-semibold font-display mb-9 text-6xl mb-6">{texts.home.firstSteps.title}</h3>
             <div className={SPACING.itemsGap}>
               {texts.home.firstSteps.steps.map((step, index) => (
                 <div
                   key={index}
-                  className="flex gap-4 items-center text-center flex-row justify-start leading-7 tracking-wider"
+                  className="flex gap-4 items-center text-center flex-row justify-start leading-7 tracking-wider my-2"
                 >
                   <div className="flex-shrink-0 rounded-full bg-primary-foreground text-primary flex items-center justify-center font-bold text-2xl size-8">
                     {index + 1}
                   </div>
-                  <p className="leading-relaxed text-center pt-0 text-2xl">{step}</p>
+                  <p className="leading-relaxed text-center pt-0 text-2xl tracking-wide">{step}</p>
                 </div>
               ))}
             </div>
@@ -101,7 +98,7 @@ export default function HomePage() {
         {/* Calendar Section */}
         <section className={`${SPACING.section} mx-auto px-4 bg-accent text-center`}>
           <h2
-            className={`text-5xl md:text-6xl font-bold ${SPACING.paragraphMargin} text-balance font-display text-primary`}
+            className={`text-6xl md:text-7xl font-bold ${SPACING.paragraphMargin} text-balance font-display text-primary mb-12`}
           >
             {texts.home.calendar.title}
           </h2>
@@ -111,7 +108,7 @@ export default function HomePage() {
               height="700"
               className="w-full block"
             ></iframe>
-            <p className="text-2xl text-left mt-2">{texts.home.calendar.note}</p>
+            <p className="text-2xl text-left mt-2 tracking-wide">{texts.home.calendar.note}</p>
           </div>
         </section>
 
@@ -119,7 +116,7 @@ export default function HomePage() {
         <section className={`${SPACING.section} bg-background text-card`}>
           <div className={SPACING.container}>
             <h2
-              className={`text-5xl md:text-6xl font-bold ${SPACING.subheadingMargin} text-center text-balance font-display`}
+              className={`text-6xl md:text-7xl font-bold ${SPACING.subheadingMargin} text-center text-balance font-display mb-12`}
             >
               {texts.home.instagram.title}
             </h2>
@@ -142,7 +139,7 @@ export default function HomePage() {
           <div className={SPACING.container}>
             <div className={SPACING.maxWidthNarrow}>
               <h2
-                className={`text-5xl md:text-6xl font-bold ${SPACING.subheadingMargin} text-center text-balance font-display text-primary`}
+                className={`text-6xl md:text-7xl font-bold ${SPACING.subheadingMargin} text-center text-balance font-display text-primary mb-12`}
               >
                 {texts.home.faq.title}
               </h2>
@@ -168,19 +165,17 @@ export default function HomePage() {
         {/* CTA Section */}
         <section className={`${SPACING.section} bg-secondary text-background`}>
           <div className={`${SPACING.container} text-center`}>
-            <h2 className={`text-5xl md:text-6xl font-bold ${SPACING.smallMargin} text-balance font-display`}>
+            <h2 className={`text-6xl md:text-7xl font-bold ${SPACING.smallMargin} text-balance font-display mb-12`}>
               {texts.home.cta.title}
             </h2>
-            <p className={`text-xl ${SPACING.subheadingMargin} text-background`}>{texts.home.cta.subtitle}</p>
+            <p className={`text-xl  tracking-wider ${SPACING.subheadingMargin} text-background`}>{texts.home.cta.subtitle}</p>
             <div className="text-center">
               <Button
                 size="lg"
                 asChild
                 className="text-2xl rounded-full border-0 p-6 font-display bg-background text-secondary font-bold"
               >
-                <Link href="/club">
-                  {texts.home.cta.button}
-                </Link>
+                <Link href="/club">{texts.home.cta.button}</Link>
               </Button>
             </div>
           </div>

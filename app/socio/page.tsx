@@ -3,7 +3,6 @@ import { MeepleIcon } from "@/components/meeple-icon"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { CheckCircle, MessageCircle, Key, Trophy, Users, Tag } from "lucide-react"
 import texts from "@/texts.json"
 import { SPACING } from "@/lib/constants"
 
@@ -37,7 +36,7 @@ export default function SocioPage() {
                 {texts.member.howToJoin.text2}
               </p>
               <h2
-                className={`text-5xl md:text-6xl font-bold ${SPACING.headingMargin} text-center text-balance font-display`}
+                className={`text-6xl md:text-7xl font-bold ${SPACING.headingMargin} text-center text-balance font-display mb-8`}
               >
                 {texts.member.howToJoin.title}
               </h2>
@@ -50,7 +49,7 @@ export default function SocioPage() {
                     <div className="absolute -top-6 -left-6 w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-3xl font-display font-bold">
                       1
                     </div>
-                    <h3 className="text-3xl font-display font-bold text-primary mb-2">
+                    <h3 className="text-4xl font-display font-bold text-primary mb-6">
                       {texts.member.howToJoin.steps[0].title}
                     </h3>
                     <p className="text-xl text-primary font-bold leading-tight">
@@ -64,7 +63,7 @@ export default function SocioPage() {
                     <div className="absolute -top-6 -left-6 w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-3xl font-display font-bold">
                       2
                     </div>
-                    <h3 className="text-3xl font-display font-bold text-primary mb-2">
+                    <h3 className="text-4xl font-display font-bold text-primary mb-6">
                       {texts.member.howToJoin.steps[1].title}
                     </h3>
                     <p className="text-xl text-primary leading-tight">
@@ -79,16 +78,14 @@ export default function SocioPage() {
                   <div className="absolute -top-6 -left-6 w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-3xl font-display font-bold">
                     3
                   </div>
-                  <h3 className="text-4xl font-display font-bold text-center mb-12">
+                  <h3 className="text-5xl font-display font-bold text-center mb-12">
                     {texts.member.howToJoin.steps[2].title}
                   </h3>
 
                   <div className="grid md:grid-cols-3 gap-8 items-center">
                     <div className="flex flex-col items-center text-center gap-2">
                       {/* <MeepleIcon className="h-8 w-8 text-accent mb-2" /> */}
-                      <p className="text-xl leading-tight">
-                        {texts.member.howToJoin.steps[2].items?.[0]}
-                      </p>
+                      <p className="text-xl leading-tight">{texts.member.howToJoin.steps[2].items?.[0]}</p>
                     </div>
 
                     <div className="bg-background text-secondary rounded-lg py-6 px-4 text-center transform scale-110 shadow-lg">
@@ -100,9 +97,7 @@ export default function SocioPage() {
 
                     <div className="flex flex-col items-center text-center gap-2">
                       {/* <MeepleIcon className="h-8 w-8 text-accent mb-2" /> */}
-                      <p className="text-xl leading-tight">
-                        {texts.member.howToJoin.steps[2].items?.[2]}
-                      </p>
+                      <p className="text-xl leading-tight">{texts.member.howToJoin.steps[2].items?.[2]}</p>
                     </div>
                   </div>
                 </div>
@@ -115,7 +110,7 @@ export default function SocioPage() {
         <section className={`${SPACING.section}  bg-accent `}>
           <div className={SPACING.container}>
             <h2
-              className={`text-5xl md:text-6xl font-bold ${SPACING.headingMargin} text-center text-primary font-display`}
+              className={`text-6xl md:text-7xl font-bold ${SPACING.headingMargin} text-center text-primary font-display mb-8`}
             >
               {texts.member.benefits.title}
             </h2>
@@ -132,14 +127,13 @@ export default function SocioPage() {
                 )
               })}
             </div>
-          </div >
-        </section >
+          </div>
+        </section>
 
         {/* CTA Section */}
-        < section className={`${SPACING.section} bg-secondary`
-        }>
+        <section className={`${SPACING.section} bg-secondary`}>
           <div className={`${SPACING.container} text-center`}>
-            <h2 className={`text-5xl md:text-6xl font-bold ${SPACING.smallMargin} text-background font-display`}>
+            <h2 className={`text-6xl md:text-7xl font-bold ${SPACING.smallMargin} text-background font-display mb-8`}>
               {texts.member.cta.title}
             </h2>
             <p
@@ -157,10 +151,10 @@ export default function SocioPage() {
               </a>
             </Button>
           </div>
-        </section >
-      </main >
+        </section>
+      </main>
 
       <Footer />
-    </div >
+    </div>
   )
 }

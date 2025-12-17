@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Gemunu_Libre, Quicksand } from "next/font/google"
+import { Gemunu_Libre, Quicksand, Frank_Ruhl_Libre } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
@@ -13,6 +13,12 @@ const quicksand = Quicksand({
   weight: "600",
   subsets: ["latin"],
   variable: "--font-quicksand",
+})
+
+const frankRuhlLibre = Frank_Ruhl_Libre({
+  weight: "600",
+  subsets: ["latin"],
+  variable: "--font-frank",
 })
 
 export const metadata: Metadata = {
@@ -46,7 +52,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${gemunuLibre.className} ${quicksand.variable} antialiased`}>
+      <head></head>
+      <body className={`${gemunuLibre.className} ${quicksand.variable} ${frankRuhlLibre.variable} antialiased`}>
         {children}
         <Analytics />
       </body>

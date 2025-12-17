@@ -2,8 +2,6 @@ import { Header } from "@/components/header"
 import { MeepleIcon } from "@/components/meeple-icon"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { MapPin, Clock, Thermometer, Users, Heart, MessageCircle } from "lucide-react"
 import Link from "next/link"
 import texts from "@/texts.json"
 import { SPACING } from "@/lib/constants"
@@ -37,7 +35,7 @@ export default function ClubPage() {
               {texts.club.features.text2}
             </p>
             <h2
-              className={`text-5xl md:text-6xl font-bold ${SPACING.headingMargin} text-center text-balance font-display`}
+              className={`text-6xl md:text-7xl font-bold ${SPACING.headingMargin} text-center text-balance font-display mb-8`}
             >
               {texts.club.features.title}
             </h2>
@@ -46,7 +44,7 @@ export default function ClubPage() {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <MeepleIcon className="h-8 w-8 text-primary" />
-                  <h3 className="text-3xl font-bold font-display">{texts.club.rules.voluntariado.title}</h3>
+                  <h3 className="text-4xl font-bold font-display mb-6">{texts.club.rules.voluntariado.title}</h3>
                 </div>
                 <p className="text-xl font-medium">{texts.club.rules.voluntariado.subtitle}</p>
                 <ul className="space-y-2">
@@ -62,7 +60,7 @@ export default function ClubPage() {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <MeepleIcon className="h-8 w-8 text-primary" />
-                  <h3 className="text-3xl font-bold font-display">{texts.club.rules.convivencia.title}</h3>
+                  <h3 className="text-4xl font-bold font-display mb-6">{texts.club.rules.convivencia.title}</h3>
                 </div>
                 <p className="text-xl font-medium">{texts.club.rules.convivencia.subtitle}</p>
                 <ul className="space-y-2">
@@ -82,7 +80,7 @@ export default function ClubPage() {
         <section className={`${SPACING.section} bg-accent`}>
           <div className={SPACING.container}>
             <h2
-              className={`text-5xl text-primary md:text-6xl font-bold ${SPACING.subheadingMargin} text-center text-balance font-display`}
+              className={`text-6xl text-primary md:text-7xl font-bold ${SPACING.subheadingMargin} text-center text-balance font-display mb-8`}
             >
               {texts.club.local.title}
             </h2>
@@ -113,7 +111,7 @@ export default function ClubPage() {
         <section className={`${SPACING.section} bg-secondary text-primary-foreground`}>
           <div className={SPACING.container}>
             <h2
-              className={`text-5xl md:text-6xl font-bold ${SPACING.subheadingMargin} text-center text-balance font-display`}
+              className={`text-6xl md:text-7xl font-bold ${SPACING.subheadingMargin} text-center text-balance font-display mb-8`}
             >
               {texts.club.location.title}
             </h2>
@@ -161,21 +159,13 @@ export default function ClubPage() {
         {/* Ludoteca Section */}
         <section className={SPACING.section}>
           <div className={`${SPACING.container} flex flex-col items-center`}>
-            <h2
-              className={`text-5xl md:text-6xl ${SPACING.paragraphMargin}  font-display`}
-            >
+            <h2 className={`text-6xl md:text-7xl ${SPACING.paragraphMargin}  font-display mb-8`}>
               {texts.club.library.title}
             </h2>
             <div className={`${SPACING.maxWidthNarrow} space-y-4 mb-12`}>
-              <p className="text-xl leading-relaxed">
-                {texts.club.library.subtitle}
-              </p>
-              <p className="text-xl leading-relaxed">
-                {texts.club.library.description}
-              </p>
-              <p className="text-xl font-medium mt-8">
-                {texts.club.library.tableNote}
-              </p>
+              <p className="text-xl leading-relaxed">{texts.club.library.subtitle}</p>
+              <p className="text-xl leading-relaxed">{texts.club.library.description}</p>
+              <p className="text-xl font-medium mt-8">{texts.club.library.tableNote}</p>
             </div>
 
             {/* Table Placeholder */}
@@ -188,15 +178,18 @@ export default function ClubPage() {
             </div>
 
             <div className={`${SPACING.maxWidthNarrow}`}>
-              <h3 className={`text-3xl font-bold ${SPACING.smallMargin} text-balance`}>
+              <h3 className={`text-4xl font-bold ${SPACING.smallMargin} text-balance mb-6`}>
                 {texts.club.library.moreGames.title}
               </h3>
               <p className={`text-xl ${SPACING.paragraphMargin} leading-relaxed`}>
                 {texts.club.library.moreGames.description}
               </p>
-              <Button size="lg" asChild className="font-display bg-secondary text-white hover:bg-secondary/90 text-2xl px-10 py-7 rounded-full shadow-lg transition-transform hover:scale-105">
+              <Button
+                size="lg"
+                asChild
+                className="font-display bg-secondary text-white hover:bg-secondary/90 text-2xl px-10 py-7 rounded-full shadow-lg transition-transform hover:scale-105"
+              >
                 <a href="https://chat.whatsapp.com/G9Q7y7y7y7y7y7y7y7y7y7" target="_blank" rel="noopener noreferrer">
-
                   {texts.common.whatsappGroup}
                 </a>
               </Button>
@@ -208,7 +201,7 @@ export default function ClubPage() {
         <section className={`${SPACING.section} bg-muted/50 bg-secondary`}>
           <div className={`${SPACING.container} text-center`}>
             <h2
-              className={`text-5xl md:text-6xl font-bold ${SPACING.smallMargin} text-center text-background font-display`}
+              className={`text-6xl md:text-7xl font-bold ${SPACING.smallMargin} text-center text-background font-display mb-8`}
             >
               {texts.club.cta.title}
             </h2>

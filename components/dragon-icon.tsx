@@ -19,4 +19,3 @@ export const DragonIcon = ({ className }: { className?: string }) => (
         </g>
     </svg>
 )
-

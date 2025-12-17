@@ -3,7 +3,6 @@ import texts from "@/texts.json"
 import { SPACING } from "@/lib/constants"
 import { DragonIcon } from "./dragon-icon"
 
-
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +29,9 @@ export function Footer() {
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-3">
               <DragonIcon className="h-11 w-11 text-background" />
-              <h3 className="text-2xl font-bold font-display text-background">{texts.common.clubName}</h3>
+              <h3 className="text-3xl font-semibold text-background mb-6" style={{ fontFamily: "var(--font-trajan)" }}>
+                {texts.common.clubName}
+              </h3>
             </div>
             <p className="text-lg leading-relaxed text-background">{texts.common.clubNameTagline}</p>
             <p className="text-lg mt-4 leading-relaxed text-background">
@@ -39,11 +40,11 @@ export function Footer() {
           </div>
 
           <div className="text-center">
-            <h4 className="text-xl font-semibold font-display mb-0.5">{texts.footer.contact}</h4>
+            <h4 className="text-2xl font-semibold font-display mb-6">{texts.footer.contact}</h4>
             <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
               <p className="text-background mb-5">{texts.common.email}</p>
             </a>
-            <h4 className="text-xl font-semibold font-display mb-0.5">{texts.footer.follow}</h4>
+            <h4 className="text-2xl font-semibold font-display mb-6">{texts.footer.follow}</h4>
             <div className="flex gap-4 justify-center">
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
                 <Instagram className="h-6 w-6 text-background" />
@@ -63,7 +64,8 @@ export function Footer() {
 
         <div className="mt-8 pt-8 border-t border-border text-center text-lg text-muted-foreground">
           <p className="text-background">
-            &copy; {new Date().getFullYear()} {texts.common.clubName}. {texts.common.copyright}
+            &copy; {new Date().getFullYear()}{" "}
+            <span style={{ fontFamily: "var(--font-trajan)" }}>{texts.common.clubName}</span>. {texts.common.copyright}
           </p>
         </div>
       </div>

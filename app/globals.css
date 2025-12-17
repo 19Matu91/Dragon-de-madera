@@ -86,6 +86,8 @@
   --font-mono: "Geist Mono", "Geist Mono Fallback";
   /* Add font-display for Quicksand for headings and buttons */
   --font-display: var(--font-quicksand);
+  /* Updated font-trajan to use Frank Ruhl Libre instead */
+  --font-trajan: var(--font-frank);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -129,6 +131,12 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    /* Added tracking-wide for letter spacing to all text */
+    @apply bg-background text-foreground tracking-wide;
+  }
+  /* Applied leading-tight to all p and span elements */
+  p,
+  span {
+    @apply leading-tight;
   }
 }

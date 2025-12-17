@@ -17,7 +17,9 @@ export function Header() {
         <div className="flex h-28 items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <DragonIcon className="h-20 w-20 text-primary" />
-            <div className="text-4xl font-bold text-primary font-display">{texts.common.clubName}</div>
+            <div className="text-4xl font-semibold text-primary" style={{ fontFamily: "var(--font-frank-ruhl-libre)" }}>
+              {texts.common.clubName}
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -26,7 +28,8 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-lg font-medium text-foreground/80 hover:text-foreground transition-colors"
+                className="text-xl font-semibold text-foreground/80 hover:text-foreground transition-colors"
+                style={{ fontFamily: "var(--font-quicksand)" }}
               >
                 {item.name}
               </Link>
@@ -46,7 +49,8 @@ export function Header() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-xl font-medium text-foreground hover:text-primary transition-colors"
+                    className="text-2xl font-semibold text-foreground hover:text-primary transition-colors"
+                    style={{ fontFamily: "var(--font-quicksand)" }}
                   >
                     {item.name}
                   </Link>
