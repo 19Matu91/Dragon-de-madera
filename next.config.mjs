@@ -8,10 +8,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  output: 'export',
-  // Only use basePath in production (GitHub Pages), locally use root
-  basePath: isProd ? '/v0-website-creation-x9' : undefined,
-
+  output: 'export'
 }
 
 export default nextConfig
