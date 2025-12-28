@@ -25,7 +25,6 @@ export const metadata: Metadata = {
   title: "Dragón de Madera - Club de Juegos de Mesa en Granada",
   description:
     "Tu club de juegos de mesa en Granada. Descubre, juega y conoce gente con tu misma afición. Más de 800 juegos, partidas semanales y un ambiente familiar.",
-  generator: "v0.app",
   icons: {
     icon: [
       {
