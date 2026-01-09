@@ -84,7 +84,6 @@ La web estará disponible en `http://localhost:5173`
 
 ---
 
-
 ## Estructura del Proyecto
 
 ```
