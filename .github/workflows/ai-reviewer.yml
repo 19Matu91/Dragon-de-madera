@@ -20,35 +20,33 @@ jobs:
       - name: Get PR Diff
         id: diff
         run: |
-          # Obtenemos el diff y lo guardamos en un archivo
           git diff origin/${{ github.base_ref }}...origin/${{ github.head_ref }} > diff.txt
-          # Validamos si el diff está vacío
-          if [ ! -s diff.txt ]; then
-            echo "EMPTY_DIFF=true" >> $GITHUB_ENV
-          fi
+          if [ ! -s diff.txt ]; then echo "EMPTY_DIFF=true" >> $GITHUB_ENV; fi
 
       - name: AI Review
         if: env.EMPTY_DIFF != 'true'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          # 1. Creamos el payload JSON de forma segura usando jq
+          # Creamos el JSON con filtros de seguridad desactivados (BLOCK_NONE)
           jq -n --arg msg "$(cat diff.txt)" \
-          '{contents: [{parts: [{text: ("Eres un experto Senior Developer. Revisa este diff de Pull Request, detecta bugs y sugiere mejoras en español:\n\n" + $msg)}]}]}' \
-          > payload.json
+          '{
+            contents: [{parts: [{text: ("Actúa como un Senior Developer. Revisa este diff y sugiere mejoras en español:\n\n" + $msg)}]}],
+            safetySettings: [
+              {category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE"},
+              {category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE"},
+              {category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE"},
+              {category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE"}
+            ]
+          }' > payload.json
 
-          # 2. Hacemos la petición guardando la respuesta completa para debug
           curl -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$GEMINI_API_KEY" \
             -H "Content-Type: application/json" \
             -d @payload.json > response.json
 
-          # 3. Debug: Ver la respuesta si algo falla (puedes ver esto en los logs de GitHub Actions)
-          cat response.json
-
-          # 4. Extraer el texto con manejo de error
-          REVIEW_TEXT=$(jq -r '.candidates[0].content.parts[0].text // "Error: La IA no pudo generar una respuesta. Revisa los logs."' response.json)
+          # Extraer texto o mensaje de error detallado
+          REVIEW_TEXT=$(jq -r 'if .candidates[0].content.parts[0].text then .candidates[0].content.parts[0].text else "⚠️ **Error de Gemini:** " + (.error.message // "Bloqueado por filtros de seguridad o respuesta vacía") end' response.json)
           
-          # Guardar para el siguiente paso
           echo "REVIEW_BODY<<EOF" >> $GITHUB_ENV
           echo "$REVIEW_TEXT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
