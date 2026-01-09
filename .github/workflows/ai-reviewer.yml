@@ -20,7 +20,8 @@ jobs:
       - name: Get PR Diff
         id: diff
         run: |
-          git diff origin/${{ github.base_ref }}...origin/${{ github.head_ref }} > diff.txt
+          # Obtenemos el diff y lo limitamos a las primeras 500 líneas para no saturar la API
+          git diff origin/${{ github.base_ref }}...origin/${{ github.head_ref }} | head -n 500 > diff.txt
           if [ ! -s diff.txt ]; then echo "EMPTY_DIFF=true" >> $GITHUB_ENV; fi
 
       - name: AI Review
@@ -28,10 +29,10 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          # Creamos el JSON con filtros de seguridad desactivados (BLOCK_NONE)
+          # Creamos el JSON para la versión v1
           jq -n --arg msg "$(cat diff.txt)" \
           '{
-            contents: [{parts: [{text: ("Actúa como un Senior Developer. Revisa este diff y sugiere mejoras en español:\n\n" + $msg)}]}],
+            contents: [{parts: [{text: ("Eres un Senior Developer. Revisa este código y sugiere mejoras, bugs o problemas de seguridad en español:\n\n" + $msg)}]}],
             safetySettings: [
               {category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE"},
               {category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE"},
@@ -40,12 +41,13 @@ jobs:
             ]
           }' > payload.json
 
-          curl -X POST "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$GEMINI_API_KEY" \
+          # USAMOS LA VERSIÓN v1 EN LA URL
+          curl -X POST "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=$GEMINI_API_KEY" \
             -H "Content-Type: application/json" \
             -d @payload.json > response.json
 
-          # Extraer texto o mensaje de error detallado
-          REVIEW_TEXT=$(jq -r 'if .candidates[0].content.parts[0].text then .candidates[0].content.parts[0].text else "⚠️ **Error de Gemini:** " + (.error.message // "Bloqueado por filtros de seguridad o respuesta vacía") end' response.json)
+          # Extraer texto o el mensaje de error de la API
+          REVIEW_TEXT=$(jq -r 'if .candidates[0].content.parts[0].text then .candidates[0].content.parts[0].text else "⚠️ **Error de Gemini:** " + (.error.message // "Respuesta vacía de la API") end' response.json)
           
           echo "REVIEW_BODY<<EOF" >> $GITHUB_ENV
           echo "$REVIEW_TEXT" >> $GITHUB_ENV
@@ -56,5 +58,5 @@ jobs:
         uses: mshick/add-pr-comment@v2
         with:
           message: |
-            ## 🤖 Revisión de IA (Gemini)
+            ## 🤖 Revisión de IA (Gemini 1.5)
             ${{ env.REVIEW_BODY }}
