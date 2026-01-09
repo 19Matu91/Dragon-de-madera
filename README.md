@@ -84,6 +84,7 @@ La web estará disponible en `http://localhost:5173`
 
 ---
 
+
 ## Estructura del Proyecto
 
 ```
@@ -479,4 +480,3 @@ import { Button } from '@/components/ui/button'
 ## Licencia
 
 Proyecto privado de la Asociación Dragón de Madera.
-
