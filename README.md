@@ -86,7 +86,6 @@ La web estará disponible en `http://localhost:5173`
 
 ## Estructura del Proyecto
 
-
 ```
 Dragon-de-madera/
 ├── public/                    # Archivos estáticos (imágenes, favicon)
