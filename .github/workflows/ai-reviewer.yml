@@ -1,12 +1,18 @@
-name: AI PR Reviewer (On-Demand)
+name: AI PR Reviewer (Auto & On-Demand)
 
 on:
+  pull_request:
+    types: [opened]  # Se ejecuta automáticamente al crear la PR
   issue_comment:
-    types: [created]
+    types: [created] # Se ejecuta cuando alguien comenta
 
 jobs:
   review:
-    if: contains(github.event.comment.body, '@reviewai') && github.event.issue.pull_request
+    # Lógica: Ejecutar si es una PR nueva O si es un comentario con @reviewai
+    if: >
+      github.event_name == 'pull_request' || 
+      (contains(github.event.comment.body, '@reviewai') && github.event.issue.pull_request)
+    
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,9 +28,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_URL="${{ github.event.issue.pull_request.html_url }}"
-          # Reducimos drásticamente el tamaño para ahorrar cuota de tokens
-          gh pr diff "$PR_URL" | head -n 150 > diff.txt
+          # Detectar la URL según el evento
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            PR_URL="${{ github.event.pull_request.html_url }}"
+          else
+            PR_URL="${{ github.event.issue.pull_request.html_url }}"
+          fi
+          
+          # Obtener el diff (limitado para no saturar la cuota gratuita)
+          gh pr diff "$PR_URL" | head -n 200 > diff.txt
+          
           if [ ! -s diff.txt ]; then echo "EMPTY_DIFF=true" >> $GITHUB_ENV; fi
 
       - name: AI Review
@@ -32,23 +45,20 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          # Usamos el modelo más avanzado de tu lista para saltar bloqueos de cuota de modelos viejos
           MODEL_NAME="gemini-3-flash-preview"
           
           jq -n --arg msg "$(cat diff.txt)" \
-          "{contents: [{parts: [{text: (\"Analiza brevemente este código y da 3 consejos clave en español:\\n\\n\" + \$msg)}]}],
+          "{contents: [{parts: [{text: (\"Actúa como un Senior Developer. Revisa este código y da sugerencias breves en español:\\n\\n\" + \$msg)}]}],
             safetySettings: [{category: \"HARM_CATEGORY_DANGEROUS_CONTENT\", threshold: \"BLOCK_NONE\"}]}" \
           > payload.json
 
-          # Intentar la petición
           RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=$GEMINI_API_KEY" \
             -H "Content-Type: application/json" \
             -d @payload.json)
 
           echo "$RESPONSE" > response.json
           
-          # Extraer el texto o el error detallado
-          REVIEW_TEXT=$(jq -r 'if .candidates[0].content.parts[0].text then .candidates[0].content.parts[0].text else "⚠️ **Aviso de Google:** " + (.error.message // "Servicio saturado.") end' response.json)
+          REVIEW_TEXT=$(jq -r 'if .candidates[0].content.parts[0].text then .candidates[0].content.parts[0].text else "⚠️ **Aviso:** Google no pudo procesar esta revisión. Reintenta con @reviewai en un minuto." end' response.json)
           
           echo "REVIEW_BODY<<EOF" >> $GITHUB_ENV
           echo "$REVIEW_TEXT" >> $GITHUB_ENV
@@ -59,5 +69,5 @@ jobs:
         uses: mshick/add-pr-comment@v2
         with:
           message: |
-            ## 🤖 Revisión Inteligente (Gemini 3)
+            ## 🤖 Revisión de Gemini 3
             ${{ env.REVIEW_BODY }}
