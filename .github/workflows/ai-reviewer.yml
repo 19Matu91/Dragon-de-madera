@@ -1,14 +1,22 @@
-name: AI PR Reviewer (Critical Check)
+name: AI PR Reviewer (Critical & Auto-Reload)
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize] # 'synchronize' se activa con cada nuevo push a la PR
   issue_comment:
     types: [created]
 
+# Esta es la clave: cancela ejecuciones previas del mismo PR si entra una nueva
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: true
+
 jobs:
   review:
-    if: github.event_name == 'pull_request' || (contains(github.event.comment.body, '@reviewai') && github.event.issue.pull_request)
+    if: >
+      github.event_name == 'pull_request' || 
+      (contains(github.event.comment.body, '@reviewai') && github.event.issue.pull_request)
+    
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -29,22 +37,28 @@ jobs:
           else
             PR_NUMBER="${{ github.event.issue.number }}"
           fi
-          gh pr diff "$PR_NUMBER" | head -n 300 > diff.txt
+          
           echo "PR_NUM=$PR_NUMBER" >> $GITHUB_ENV
+          
+          # Obtenemos el diff actual del PR
+          gh pr diff "$PR_NUMBER" | head -n 300 > diff.txt
+          
+          if [ ! -s diff.txt ]; then echo "EMPTY_DIFF=true" >> $GITHUB_ENV; fi
 
       - name: AI Analysis
         id: ai
+        if: env.EMPTY_DIFF != 'true'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           MODEL_NAME="gemini-3-flash-preview"
           
-          # Instrucción especial para detectar errores críticos y mencionar al autor
-          PROMPT="Actúa como un Senior QA. Analiza este diff. 
-          1. Si ves un error CRÍTICO (bug grave, seguridad), empieza tu respuesta con 'CRITICAL_ERROR'.
-          2. Indica el archivo y la línea aproximada del error.
-          3. Menciona al autor @${{ github.event.pull_request.user.login || github.event.issue.user.login }} pidiendo corrección inmediata.
-          4. Si no es crítico, da sugerencias normales.
+          # Prompt mejorado para detección de errores y mención
+          PROMPT="Actúa como un Senior QA. Analiza este diff de código.
+          - Si detectas un error CRÍTICO (bugs, fallos de seguridad graves), inicia tu respuesta con la palabra 'CRITICAL_ERROR'.
+          - Identifica el archivo y la línea.
+          - Menciona al autor @${{ github.event.pull_request.user.login || github.event.issue.user.login }} solicitando cambios.
+          - Si no hay errores críticos, da consejos de calidad de código en español.
           
           DIFF:
           $(cat diff.txt)"
@@ -54,13 +68,13 @@ jobs:
           RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=$GEMINI_API_KEY" \
             -H "Content-Type: application/json" -d @payload.json)
 
-          REVIEW_TEXT=$(echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text // "Error procesando review"')
+          REVIEW_TEXT=$(echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text // "Error: No se pudo generar la revisión."')
           
-          # Guardar resultado y chequear si es crítico
           echo "RESULT<<EOF" >> $GITHUB_ENV
           echo "$REVIEW_TEXT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
           
+          # Determinar si bloqueamos el PR o solo comentamos
           if [[ "$REVIEW_TEXT" == *"CRITICAL_ERROR"* ]]; then
             echo "STATUS=REQUEST_CHANGES" >> $GITHUB_ENV
           else
@@ -68,8 +82,9 @@ jobs:
           fi
 
       - name: Post Review
+        if: env.EMPTY_DIFF != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Publica una Review formal (Request Changes si es crítico)
+          # Publica la revisión formal. Si es STATUS=REQUEST_CHANGES, bloqueará el PR.
           gh pr review ${{ env.PR_NUM }} --${{ env.STATUS | lower }} --body "${{ env.RESULT }}"
