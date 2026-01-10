@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { AppRoutes } from '@/config/routes'
 import { scrollToElement, scrollToTop } from '@/lib/scroll'
 
-functiottn ScrollToHashElement() {
+function ScrollToHashElement() {
   const { pathname, hash } = useLocation()
 
   useEffect(() => {
