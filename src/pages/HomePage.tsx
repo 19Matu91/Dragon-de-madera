@@ -6,10 +6,11 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { SPACING } from '@/lib/constants'
 import texts from '@/data/texts.json'
 
-export functiont HomePage() {
+export function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
+
       <PageHero title={texts.home.hero.title} />
 
       <main className="flex-1">
