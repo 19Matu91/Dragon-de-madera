@@ -23,8 +23,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PR_URL="${{ github.event.issue.pull_request.html_url }}"
-          # Limitamos el diff para no exceder los tokens de entrada
-          gh pr diff "$PR_URL" | head -n 300 > diff.txt
+          # Enviamos un fragmento pequeño para asegurar que entre en la cuota gratuita
+          gh pr diff "$PR_URL" | head -n 250 > diff.txt
           if [ ! -s diff.txt ]; then echo "EMPTY_DIFF=true" >> $GITHUB_ENV; fi
 
       - name: AI Review
@@ -32,28 +32,23 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          # Usamos el modelo 8b que tiene cuotas mucho más amplias
-          MODEL_NAME="gemini-1.5-flash-8b"
+          # NOMBRE EXACTO DE TU LISTA: gemini-2.0-flash-lite
+          MODEL_NAME="gemini-2.0-flash-lite"
           
           jq -n --arg msg "$(cat diff.txt)" \
-          "{contents: [{parts: [{text: (\"Actúa como un Senior Developer. Analiza este código y da consejos útiles en español:\\n\\n\" + \$msg)}]}],
+          "{contents: [{parts: [{text: (\"Analiza este código brevemente en español:\\n\\n\" + \$msg)}]}],
             safetySettings: [{category: \"HARM_CATEGORY_DANGEROUS_CONTENT\", threshold: \"BLOCK_NONE\"}]}" \
           > payload.json
 
-          # Bucle de reintento simple
-          for i in {1..2}; do
-            RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=$GEMINI_API_KEY" \
-              -H "Content-Type: application/json" \
-              -d @payload.json)
-            
-            # Si no hay error de cuota, salimos del bucle
-            if [[ ! "$RESPONSE" == *"quota"* ]]; then break; fi
-            echo "Cuota excedida, reintentando en 15 segundos..."
-            sleep 15
-          done
+          # Usamos v1beta que es la que respondió a tu comando de diagnóstico
+          RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=$GEMINI_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d @payload.json)
 
           echo "$RESPONSE" > response.json
-          REVIEW_TEXT=$(jq -r 'if .candidates[0].content.parts[0].text then .candidates[0].content.parts[0].text else "⚠️ **Aviso:** " + (.error.message // "No pude obtener respuesta tras reintentar. Inténtalo de nuevo en un minuto.") end' response.json)
+          
+          # Extracción robusta de la respuesta
+          REVIEW_TEXT=$(jq -r 'if .candidates[0].content.parts[0].text then .candidates[0].content.parts[0].text else "⚠️ **Aviso:** " + (.error.message // "No se pudo obtener respuesta. Intenta de nuevo en un momento.") end' response.json)
           
           echo "REVIEW_BODY<<EOF" >> $GITHUB_ENV
           echo "$REVIEW_TEXT" >> $GITHUB_ENV
@@ -64,5 +59,5 @@ jobs:
         uses: mshick/add-pr-comment@v2
         with:
           message: |
-            ## 🤖 Revisión de IA (Gemini 8B)
+            ## 🤖 Revisión de IA (Gemini 2.0 Lite)
             ${{ env.REVIEW_BODY }}
