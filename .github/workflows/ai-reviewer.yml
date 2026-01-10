@@ -1,18 +1,14 @@
-name: AI PR Reviewer (Auto & On-Demand)
+name: AI PR Reviewer (Critical Check)
 
 on:
   pull_request:
-    types: [opened]  # Se ejecuta automáticamente al crear la PR
+    types: [opened]
   issue_comment:
-    types: [created] # Se ejecuta cuando alguien comenta
+    types: [created]
 
 jobs:
   review:
-    # Lógica: Ejecutar si es una PR nueva O si es un comentario con @reviewai
-    if: >
-      github.event_name == 'pull_request' || 
-      (contains(github.event.comment.body, '@reviewai') && github.event.issue.pull_request)
-    
+    if: github.event_name == 'pull_request' || (contains(github.event.comment.body, '@reviewai') && github.event.issue.pull_request)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,46 +24,52 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Detectar la URL según el evento
           if [ "${{ github.event_name }}" == "pull_request" ]; then
-            PR_URL="${{ github.event.pull_request.html_url }}"
+            PR_NUMBER="${{ github.event.pull_request.number }}"
           else
-            PR_URL="${{ github.event.issue.pull_request.html_url }}"
+            PR_NUMBER="${{ github.event.issue.number }}"
           fi
-          
-          # Obtener el diff (limitado para no saturar la cuota gratuita)
-          gh pr diff "$PR_URL" | head -n 200 > diff.txt
-          
-          if [ ! -s diff.txt ]; then echo "EMPTY_DIFF=true" >> $GITHUB_ENV; fi
+          gh pr diff "$PR_NUMBER" | head -n 300 > diff.txt
+          echo "PR_NUM=$PR_NUMBER" >> $GITHUB_ENV
 
-      - name: AI Review
-        if: env.EMPTY_DIFF != 'true'
+      - name: AI Analysis
+        id: ai
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           MODEL_NAME="gemini-3-flash-preview"
           
-          jq -n --arg msg "$(cat diff.txt)" \
-          "{contents: [{parts: [{text: (\"Actúa como un Senior Developer. Revisa este código y da sugerencias breves en español:\\n\\n\" + \$msg)}]}],
-            safetySettings: [{category: \"HARM_CATEGORY_DANGEROUS_CONTENT\", threshold: \"BLOCK_NONE\"}]}" \
-          > payload.json
+          # Instrucción especial para detectar errores críticos y mencionar al autor
+          PROMPT="Actúa como un Senior QA. Analiza este diff. 
+          1. Si ves un error CRÍTICO (bug grave, seguridad), empieza tu respuesta con 'CRITICAL_ERROR'.
+          2. Indica el archivo y la línea aproximada del error.
+          3. Menciona al autor @${{ github.event.pull_request.user.login || github.event.issue.user.login }} pidiendo corrección inmediata.
+          4. Si no es crítico, da sugerencias normales.
+          
+          DIFF:
+          $(cat diff.txt)"
+
+          jq -n --arg msg "$PROMPT" '{contents: [{parts: [{text: $msg}]}]}' > payload.json
 
           RESPONSE=$(curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=$GEMINI_API_KEY" \
-            -H "Content-Type: application/json" \
-            -d @payload.json)
+            -H "Content-Type: application/json" -d @payload.json)
 
-          echo "$RESPONSE" > response.json
+          REVIEW_TEXT=$(echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text // "Error procesando review"')
           
-          REVIEW_TEXT=$(jq -r 'if .candidates[0].content.parts[0].text then .candidates[0].content.parts[0].text else "⚠️ **Aviso:** Google no pudo procesar esta revisión. Reintenta con @reviewai en un minuto." end' response.json)
-          
-          echo "REVIEW_BODY<<EOF" >> $GITHUB_ENV
+          # Guardar resultado y chequear si es crítico
+          echo "RESULT<<EOF" >> $GITHUB_ENV
           echo "$REVIEW_TEXT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+          
+          if [[ "$REVIEW_TEXT" == *"CRITICAL_ERROR"* ]]; then
+            echo "STATUS=REQUEST_CHANGES" >> $GITHUB_ENV
+          else
+            echo "STATUS=COMMENT" >> $GITHUB_ENV
+          fi
 
-      - name: Post Comment
-        if: env.EMPTY_DIFF != 'true'
-        uses: mshick/add-pr-comment@v2
-        with:
-          message: |
-            ## 🤖 Revisión de Gemini 3
-            ${{ env.REVIEW_BODY }}
+      - name: Post Review
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Publica una Review formal (Request Changes si es crítico)
+          gh pr review ${{ env.PR_NUM }} --${{ env.STATUS | lower }} --body "${{ env.RESULT }}"
