@@ -37,7 +37,10 @@ jobs:
             PR_NUMBER="${{ github.event.issue.number }}"
           fi
           echo "PR_NUM=$PR_NUMBER" >> $GITHUB_ENV
-          gh pr diff "$PR_NUMBER" | head -n 400 > diff.txt
+          
+          # Obtenemos el diff y lo guardamos en un archivo
+          gh pr diff "$PR_NUMBER" | head -n 500 > diff.txt
+          
           if [ ! -s diff.txt ]; then echo "EMPTY_DIFF=true" >> $GITHUB_ENV; fi
 
       - name: AI Analysis
@@ -48,34 +51,36 @@ jobs:
         run: |
           MODEL_NAME="gemini-3-flash-preview"
           
-          # Definición de estructura clara para departamentos de desarrollo
-          PROMPT="Actúa como un Lead Developer y Arquitecto de Software. Analiza el siguiente DIFF y genera un reporte estructurado en español usando exactamente estas cabeceras en Markdown:
+          # Creamos un archivo con las instrucciones (instrucciones.txt)
+          cat << 'EOF' > instrucciones.txt
+          Actúa como un Lead Developer y Arquitecto de Software. Analiza el siguiente DIFF y genera un reporte estructurado en español usando exactamente estas cabeceras en Markdown:
 
           ### 📑 RESUMEN DE CAMBIOS
-          (Breve descripción técnica de lo que este PR intenta lograr).
-
           ### 🚨 ERRORES A CORREGIR (CRITICAL)
-          (Solo si hay bugs graves, vulnerabilidades o fallos de lógica. Si no hay nada, escribe 'Ninguno detectado').
-          *Importante: Si esta sección contiene errores, empieza el mensaje completo con la palabra 'CRITICAL_ERROR'.*
-
           ### 🛠️ OBSERVACIONES TÉCNICAS
-          (Detalles sobre implementación, archivos modificados y posibles efectos secundarios).
-
           ### 💡 RECOMENDACIONES DE MEJORA
-          (Consejos sobre legibilidad, patrones de diseño o rendimiento).
 
-          Menciona al autor @${{ github.event.pull_request.user.login || github.event.issue.user.login }} al inicio.
+          Instrucciones adicionales:
+          - Menciona al autor @${{ github.event.pull_request.user.login || github.event.issue.user.login }} al inicio.
+          - Si hay errores graves, empieza el mensaje con 'CRITICAL_ERROR'.
+          - Si no hay errores críticos, pon 'Ninguno detectado'.
 
-          DIFF:
-          $(cat diff.txt)"
+          DIFF A ANALIZAR:
+          EOF
 
-          jq -n --arg msg "$PROMPT" '{contents: [{parts: [{text: $msg}]}]}' > payload.json
+          # UNIMOS LOS ARCHIVOS Y CREAMOS EL JSON SIN USAR VARIABLES DE BASH
+          # Esto evita el error "Argument list too long"
+          jq -n --rawfile inst instrucciones.txt --rawfile codigo diff.txt \
+            '{contents: [{parts: [{text: ($inst + "\n" + $codigo)}]}]}' > payload.json
 
+          # Petición a la API
           curl -s -X POST "https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=$GEMINI_API_KEY" \
             -H "Content-Type: application/json" -d @payload.json > raw_response.json
 
+          # Extraer respuesta
           jq -r '.candidates[0].content.parts[0].text // "Error: Sin respuesta de la IA."' raw_response.json > review_body.txt
           
+          # Determinar estado
           if grep -q "CRITICAL_ERROR" review_body.txt; then
             echo "STATUS=request-changes" >> $GITHUB_ENV
           else
@@ -87,5 +92,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Publicación segura mediante archivo para evitar errores de Bash
           gh pr review ${{ env.PR_NUM }} --${{ env.STATUS }} --body-file review_body.txt
