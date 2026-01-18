@@ -760,7 +760,7 @@ LEGAL
 - Familiar: Por definir
 
 **Cuenta bancaria:**
-- IBAN: ES4730230180596406354008
+- IBAN: ******
 
 **Tiendas colaboradoras (10% descuento):**
 - FreakMondo (juegos de mesa)
