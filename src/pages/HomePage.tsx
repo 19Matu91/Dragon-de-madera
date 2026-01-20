@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { SPACING } from '@/lib/constants'
 import texts from '@/data/texts.json'
+import images from '@/../../images.json'
 
 export function HomePage() {
   return (
@@ -50,7 +51,7 @@ export function HomePage() {
               <div className="relative mt-8 lg:mt-0">
                 <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
                   <img
-                    src="/club-community-people-playing.jpg"
+                    src={images.home.hero.community}
                     alt={texts.home.hero.imageAlt}
                     className="w-full h-full object-cover"
                   />
@@ -112,11 +113,11 @@ export function HomePage() {
           <div className={SPACING.container}>
             <SectionHeading>{texts.home.instagram.title}</SectionHeading>
             <div className={`grid grid-cols-2 md:grid-cols-3 ${SPACING.gapSm}`}>
-              {[1, 2, 3, 4, 5, 6].map((i) => (
+              {images.home.instagram.slice(0, 6).map((imgSrc, i) => (
                 <div key={i} className="aspect-square rounded-lg overflow-hidden bg-muted">
                   <img
-                    src={`/board-games-event-photo-.jpg?height=400&width=400&query=board games event photo ${i}`}
-                    alt={`${texts.home.instagram.imageAlt} ${i}`}
+                    src={imgSrc}
+                    alt={`${texts.home.instagram.imageAlt} ${i + 1}`}
                     className="w-full h-full object-cover hover:scale-105 transition-transform"
                   />
                 </div>

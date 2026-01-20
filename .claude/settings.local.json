@@ -10,7 +10,10 @@
       "Bash(cat:*)",
       "Bash(git rm:*)",
       "Bash(pnpm run build:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(for:*)",
+      "Bash(do cp \"C:/Users/Usuario/Proyects/Dragon-de-madera/public/board-games-event-photo-.jpg\" \"C:/Users/Usuario/Proyects/Dragon-de-madera/public/instagram-$i.jpg\")",
+      "Bash(done)"
     ]
   }
 }

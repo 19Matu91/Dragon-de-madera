@@ -4,6 +4,7 @@ import { MeepleIcon } from '@/components/atoms/icons'
 import { Button } from '@/components/ui/button'
 import { SPACING, SOCIAL_URLS } from '@/lib/constants'
 import texts from '@/data/texts.json'
+import images from '@/../../images.json'
 
 export function ClubPage() {
   return (
@@ -106,7 +107,7 @@ export function ClubPage() {
             <div className={`grid md:grid-cols-2 ${SPACING.gapXl} items-center max-w-6xl mx-auto`}>
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src="/club-local-empty.jpg"
+                  src={images.club.local}
                   alt="Nuestro local"
                   className="w-full h-full object-cover"
                 />
