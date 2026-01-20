@@ -404,7 +404,7 @@ Esta guía te permite actualizar las fotos de la web sin necesidad de conocimien
 #### 📝 PASO 2: Actualizar el archivo `images.json`
 
 1. **Accede al archivo images.json:**
-   - [📄 Editar images.json](https://github.com/19Matu91/Dragon-de-madera/edit/main/images.json)
+   - [📄 Editar images.json](https://github.com/19Matu91/Dragon-de-madera/edit/main/src/data/images.json)
 
 2. **Busca la sección que quieres modificar:**
 
@@ -467,7 +467,7 @@ Esta guía te permite actualizar las fotos de la web sin necesidad de conocimien
 #### 📚 Enlaces rápidos
 
 - [Ver carpeta public](https://github.com/19Matu91/Dragon-de-madera/tree/main/public)
-- [Editar images.json](https://github.com/19Matu91/Dragon-de-madera/edit/main/images.json)
+- [Editar images.json](https://github.com/19Matu91/Dragon-de-madera/edit/main/src/data/images.json)
 - [Subir archivos a public](https://github.com/19Matu91/Dragon-de-madera/upload/main/public)
 
 ---

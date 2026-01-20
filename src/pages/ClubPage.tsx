@@ -4,7 +4,7 @@ import { MeepleIcon } from '@/components/atoms/icons'
 import { Button } from '@/components/ui/button'
 import { SPACING, SOCIAL_URLS } from '@/lib/constants'
 import texts from '@/data/texts.json'
-import images from '@/../../images.json'
+import images from '@/data/images.json'
 
 export function ClubPage() {
   return (

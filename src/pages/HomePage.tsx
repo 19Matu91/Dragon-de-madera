@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { SPACING } from '@/lib/constants'
 import texts from '@/data/texts.json'
-import images from '@/../../images.json'
+import images from '@/data/images.json'
 
 export function HomePage() {
   return (
