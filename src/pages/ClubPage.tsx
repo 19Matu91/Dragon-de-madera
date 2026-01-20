@@ -32,15 +32,15 @@ export function ClubPage() {
             <div
               className={`grid md:grid-cols-2 ${SPACING.gapLg} ${SPACING.maxWidthWide} ${SPACING.marginTopLg}`}
             >
-              <div className={SPACING.spaceYMd}>
-                <div className={`flex items-center ${SPACING.gapSm}`}>
-                  <MeepleIcon className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-primary" />
-                  <h3 className={`text-2xl sm:text-3xl md:text-4xl font-bold font-display ${SPACING.marginBottomSm}`}>
+              <div className={`${SPACING.spaceYMd} text-center md:text-left`}>
+                <div className={`flex items-center ${SPACING.gapSm} ${SPACING.marginBottomSm} justify-center md:justify-start`}>
+                  <MeepleIcon className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-primary flex-shrink-0" />
+                  <h3 className={`text-2xl sm:text-3xl md:text-4xl font-bold font-display`}>
                     {texts.club.rules.voluntariado.title}
                   </h3>
                 </div>
                 <p className="text-base sm:text-lg md:text-xl font-medium">{texts.club.rules.voluntariado.subtitle}</p>
-                <ul className={SPACING.spaceYXs}>
+                <ul className={`${SPACING.spaceYXs} inline-block text-left`}>
                   {texts.club.rules.voluntariado.items.map((item: string, i: number) => (
                     <li key={i} className={`text-sm sm:text-base md:text-lg text-balance flex ${SPACING.gapXs}`}>
                       <span>-</span>
@@ -50,15 +50,15 @@ export function ClubPage() {
                 </ul>
               </div>
 
-              <div className={SPACING.spaceYMd}>
-                <div className={`flex items-center ${SPACING.gapSm}`}>
-                  <MeepleIcon className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-primary" />
-                  <h3 className={`text-2xl sm:text-3xl md:text-4xl font-bold font-display ${SPACING.marginBottomSm}`}>
+              <div className={`${SPACING.spaceYMd} text-center md:text-left`}>
+                <div className={`flex items-center ${SPACING.gapSm} ${SPACING.marginBottomSm} justify-center md:justify-start`}>
+                  <MeepleIcon className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-primary flex-shrink-0" />
+                  <h3 className={`text-2xl sm:text-3xl md:text-4xl font-bold font-display`}>
                     {texts.club.rules.convivencia.title}
                   </h3>
                 </div>
                 <p className="text-base sm:text-lg md:text-xl font-medium">{texts.club.rules.convivencia.subtitle}</p>
-                <ul className={SPACING.spaceYXs}>
+                <ul className={`${SPACING.spaceYXs} inline-block text-left`}>
                   {texts.club.rules.convivencia.items.map((item: string, i: number) => (
                     <li key={i} className={`text-sm sm:text-base md:text-lg text-balance flex ${SPACING.gapXs}`}>
                       <span>-</span>

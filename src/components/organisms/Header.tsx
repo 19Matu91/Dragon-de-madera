@@ -49,7 +49,7 @@ export function Header() {
                     key={item.label}
                     to={item.to}
                     scrollTo={item.scrollTo}
-                    className="text-xl font-medium text-card hover:text-accent transition-colors"
+                    className="text-xl font-medium text-card hover:text-primary transition-colors"
                   >
                     {item.label}
                   </NavLink>
