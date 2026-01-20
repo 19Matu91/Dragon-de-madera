@@ -13,7 +13,9 @@
       "Bash(ls:*)",
       "Bash(for:*)",
       "Bash(do cp \"C:/Users/Usuario/Proyects/Dragon-de-madera/public/board-games-event-photo-.jpg\" \"C:/Users/Usuario/Proyects/Dragon-de-madera/public/instagram-$i.jpg\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nRemove Claude temporary files from repository\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)"
     ]
   }
 }
