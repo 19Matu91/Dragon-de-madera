@@ -123,7 +123,7 @@ export function HomePage() {
                 </div>
               ))}
             </div>
-            <p className={`text-center text-base sm:text-lg md:text-xl tracking-wide ${SPACING.marginBottomMd}`}>
+            <p className={`text-center text-base sm:text-lg md:text-xl tracking-wide ${SPACING.marginTopMd}`}>
               {texts.home.instagram.followText}
               <a
                 href={SOCIAL_URLS.instagram}
