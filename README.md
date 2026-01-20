@@ -431,10 +431,12 @@ Esta guía te permite actualizar las fotos de la web sin necesidad de conocimien
      "/instagram-1.jpg",  // Primera foto
      "/instagram-2.jpg",  // Segunda foto
      "/instagram-3.jpg",  // Tercera foto
-     // ... hasta 9 fotos
+     "/instagram-4.jpg",  // Cuarta foto
+     "/instagram-5.jpg",  // Quinta foto
+     "/instagram-6.jpg"   // Sexta foto
    ]
    ```
-   - Se muestran **6 fotos** en la web, pero puedes tener hasta **9 configuradas**
+   - La galería muestra exactamente **6 fotos**
    - Cambia solo las rutas que necesites
 
 5. **Guarda los cambios:**

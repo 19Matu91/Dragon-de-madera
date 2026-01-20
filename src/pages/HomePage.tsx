@@ -113,7 +113,7 @@ export function HomePage() {
           <div className={SPACING.container}>
             <SectionHeading>{texts.home.instagram.title}</SectionHeading>
             <div className={`grid grid-cols-2 md:grid-cols-3 ${SPACING.gapSm}`}>
-              {images.home.instagram.slice(0, 6).map((imgSrc, i) => (
+              {images.home.instagram.map((imgSrc, i) => (
                 <div key={i} className="aspect-square rounded-lg overflow-hidden bg-muted">
                   <img
                     src={imgSrc}
