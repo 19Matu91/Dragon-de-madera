@@ -9,7 +9,8 @@
       "Bash(head:*)",
       "Bash(cat:*)",
       "Bash(git rm:*)",
-      "Bash(pnpm run build:*)"
+      "Bash(pnpm run build:*)",
+      "Bash(ls:*)"
     ]
   }
 }

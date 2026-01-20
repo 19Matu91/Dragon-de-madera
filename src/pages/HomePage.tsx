@@ -50,7 +50,7 @@ export function HomePage() {
               <div className="relative mt-8 lg:mt-0">
                 <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
                   <img
-                    src="/board-game-club-event-with-people-playing-games.jpg"
+                    src="/club-community-people-playing.jpg"
                     alt={texts.home.hero.imageAlt}
                     className="w-full h-full object-cover"
                   />

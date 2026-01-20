@@ -106,7 +106,7 @@ export function ClubPage() {
             <div className={`grid md:grid-cols-2 ${SPACING.gapXl} items-center max-w-6xl mx-auto`}>
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src="/empty-board-game-club-with-shelves-and-spacious-ro.jpg"
+                  src="/club-local-empty.jpg"
                   alt="Nuestro local"
                   className="w-full h-full object-cover"
                 />
