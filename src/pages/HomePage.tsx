@@ -112,17 +112,6 @@ export function HomePage() {
         <section className={`${SPACING.section} bg-background text-card`}>
           <div className={SPACING.container}>
             <SectionHeading>{texts.home.instagram.title}</SectionHeading>
-            <p className={`text-center text-base sm:text-lg md:text-xl tracking-wide ${SPACING.marginBottomMd}`}>
-              {texts.home.instagram.followText}
-              <a
-                href={SOCIAL_URLS.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline font-semibold"
-              >
-                {texts.home.instagram.accountHandle}
-              </a>
-            </p>
             <div className={`grid grid-cols-2 md:grid-cols-3 ${SPACING.gapSm}`}>
               {images.home.instagram.map((imgSrc, i) => (
                 <div key={i} className="aspect-[3/4] rounded-lg overflow-hidden bg-muted">
@@ -134,6 +123,17 @@ export function HomePage() {
                 </div>
               ))}
             </div>
+            <p className={`text-center text-base sm:text-lg md:text-xl tracking-wide ${SPACING.marginBottomMd}`}>
+              {texts.home.instagram.followText}
+              <a
+                href={SOCIAL_URLS.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline font-semibold"
+              >
+                {texts.home.instagram.accountHandle}
+              </a>
+            </p>
           </div>
         </section>
 
