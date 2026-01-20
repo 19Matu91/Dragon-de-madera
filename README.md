@@ -17,6 +17,7 @@ Web oficial de la asociación granadina de juegos de mesa **Dragón de Madera**.
 - [Sistema de Estilos](#sistema-de-estilos)
 - [Rutas](#rutas)
 - [Contenido y Textos](#contenido-y-textos)
+- [Gestión de Imágenes](#gestión-de-imágenes)
 - [Despliegue](#despliegue)
 - [Guía de Contribución](#guía-de-contribución)
 
@@ -370,6 +371,102 @@ import texts from '@/data/texts.json'
 <h1>{texts.home.hero.title}</h1>
 <p>{texts.common.clubNameTagline}</p>
 ```
+
+---
+
+## Gestión de Imágenes
+
+### Cómo cambiar las imágenes de la web desde GitHub
+
+Esta guía te permite actualizar las fotos de la web sin necesidad de conocimientos técnicos. Solo necesitas una cuenta de GitHub con permisos en el proyecto.
+
+#### 📋 PASO 1: Subir la imagen a la carpeta `public`
+
+1. **Accede a la carpeta public en GitHub:**
+   - [📁 Ir a la carpeta public](https://github.com/19Matu91/Dragon-de-madera/tree/main/public)
+
+2. **Sube tu imagen:**
+   - Haz clic en el botón **"Add file"** → **"Upload files"** (arriba a la derecha)
+   - Arrastra tu imagen desde tu ordenador a la zona que dice **"Drag files here"**
+
+3. **Nombra tu imagen correctamente:**
+   - ⚠️ **IMPORTANTE**: Usa nombres descriptivos sin espacios, tildes ni caracteres especiales
+   - Ejemplos válidos:
+     - `club-community-people-playing.jpg`
+     - `instagram-1.jpg`
+     - `club-local-empty.jpg`
+   - ❌ Evita: `Foto del Club 2024.jpg`, `nueva_imágen.png`
+
+4. **Guarda los cambios:**
+   - Escribe un mensaje descriptivo (ejemplo: `Actualizar foto de Instagram 1`)
+   - Haz clic en **"Commit changes"** (botón verde)
+
+#### 📝 PASO 2: Actualizar el archivo `images.json`
+
+1. **Accede al archivo images.json:**
+   - [📄 Editar images.json](https://github.com/19Matu91/Dragon-de-madera/edit/main/images.json)
+
+2. **Busca la sección que quieres modificar:**
+
+   | Foto a cambiar | Busca esta clave | Ejemplo |
+   |----------------|------------------|---------|
+   | Foto principal "Únete a nuestra comunidad" | `"community"` | `"community": "/club-community-people-playing.jpg"` |
+   | Fotos de Instagram | `"instagram"` | Array con 9 fotos |
+   | Foto del local | `"local"` | `"local": "/club-local-empty.jpg"` |
+
+3. **Cambia el nombre del archivo:**
+   - Mantén la estructura y **NO borres las comillas** ni la **barra `/`** inicial
+   - Ejemplo de cambio:
+     ```json
+     // ANTES:
+     "community": "/club-community-people-playing.jpg"
+
+     // DESPUÉS (si subiste una foto llamada "nueva-foto-club.jpg"):
+     "community": "/nueva-foto-club.jpg"
+     ```
+
+4. **Para fotos de Instagram:**
+   ```json
+   "instagram": [
+     "/instagram-1.jpg",  // Primera foto
+     "/instagram-2.jpg",  // Segunda foto
+     "/instagram-3.jpg",  // Tercera foto
+     // ... hasta 9 fotos
+   ]
+   ```
+   - Se muestran **6 fotos** en la web, pero puedes tener hasta **9 configuradas**
+   - Cambia solo las rutas que necesites
+
+5. **Guarda los cambios:**
+   - Haz clic en **"Commit changes"** (arriba a la derecha)
+   - Escribe una descripción del cambio
+   - Haz clic en **"Commit changes"** de nuevo
+
+#### ⏱️ PASO 3: Esperar y verificar
+
+1. **GitHub actualizará la web automáticamente** en unos minutos (normalmente 2-5 minutos)
+
+2. **Verifica los cambios:**
+   - Ve a https://dragondemadera.com
+   - Refresca la página (**F5** o **Ctrl+R**)
+   - Si no ves los cambios, espera un poco más y vuelve a refrescar
+
+#### 💡 Consejos y buenas prácticas
+
+- ✅ **Formatos aceptados**: JPG, PNG
+- ✅ **Tamaño recomendado**: No más de **2MB** por imagen (para carga rápida)
+- ✅ **Resolución recomendada**:
+  - Foto principal comunidad: 1200x900px (4:3)
+  - Foto del local: 1200x900px (4:3)
+  - Fotos Instagram: 800x800px (1:1)
+- ⚠️ **Si tienes dudas, NO borres nada** del archivo `images.json`, solo cambia los nombres entre comillas
+- 📧 Si necesitas ayuda, contacta con el administrador del repositorio
+
+#### 📚 Enlaces rápidos
+
+- [Ver carpeta public](https://github.com/19Matu91/Dragon-de-madera/tree/main/public)
+- [Editar images.json](https://github.com/19Matu91/Dragon-de-madera/edit/main/images.json)
+- [Subir archivos a public](https://github.com/19Matu91/Dragon-de-madera/upload/main/public)
 
 ---
 
