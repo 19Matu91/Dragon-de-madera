@@ -3,12 +3,18 @@ import { Header, Footer, PageHero, SectionHeading, LudotecaTable } from '@/compo
 import { MeepleIcon } from '@/components/atoms/icons'
 import { Button } from '@/components/ui/button'
 import { SPACING, SOCIAL_URLS } from '@/lib/constants'
+import { SEOHead } from '@/components/SEOHead'
 import texts from '@/data/texts.json'
 import images from '@/data/images.json'
 
 export function ClubPage() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead
+        title="El Club"
+        description="Conoce el club Dragón de Madera en Granada. Más de 800 juegos de mesa, partidas semanales y eventos especiales."
+        path="/club"
+      />
       <Header />
 
       <main className="flex-1">

@@ -4,12 +4,14 @@ import { FeatureItem } from '@/components/molecules'
 import { Button } from '@/components/ui/button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { SOCIAL_URLS, SPACING } from '@/lib/constants'
+import { SEOHead } from '@/components/SEOHead'
 import texts from '@/data/texts.json'
 import images from '@/data/images.json'
 
 export function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead path="/" />
       <Header />
 
       <PageHero title={texts.home.hero.title} />

@@ -2,11 +2,17 @@ import { Header, Footer, PageHero, SectionHeading, WhatsAppButton } from '@/comp
 import { MeepleIcon } from '@/components/atoms/icons'
 import { Card, CardContent } from '@/components/ui/card'
 import { SPACING } from '@/lib/constants'
+import { SEOHead } from '@/components/SEOHead'
 import texts from '@/data/texts.json'
 
 export function SocioPage() {
   return (
     <div className="min-h-screen flex flex-col">
+      <SEOHead
+        title="Hazte Socio"
+        description="Únete al club Dragón de Madera. Descubre las ventajas de ser socio y disfruta de juegos de mesa en Granada."
+        path="/socio"
+      />
       <Header />
 
       <main className="flex-1">
