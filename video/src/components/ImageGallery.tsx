@@ -4,6 +4,7 @@ type ImageGalleryProps = {
   images: string[];
   imageWidth?: number;
   aspectRatio?: "1:1" | "3:4" | "4:3" | "9:16";
+  columns?: number;
 };
 
 const ASPECT_RATIOS = {
@@ -17,6 +18,7 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   images,
   imageWidth = 150,
   aspectRatio = "3:4",
+  columns,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -26,9 +28,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
   return (
     <div
       style={{
-        display: "flex",
+        display: "grid",
+        gridTemplateColumns: columns ? `repeat(${columns}, ${imageWidth}px)` : `repeat(auto-fit, ${imageWidth}px)`,
         gap: 16,
-        flexWrap: "wrap",
         justifyContent: "center",
         alignItems: "center",
       }}

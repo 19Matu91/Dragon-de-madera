@@ -54,13 +54,13 @@ export const GalleryScene: React.FC<GallerySceneProps> = ({ isVertical = false }
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: isVertical ? 60 : 80,
-          gap: isVertical ? 60 : 60,
+          padding: isVertical ? 40 : 80,
+          gap: isVertical ? 80 : 60,
         }}
       >
         <AnimatedText
           text="Nuestra Comunidad"
-          fontSize={isVertical ? 72 : 80}
+          fontSize={isVertical ? 90 : 80}
           color="white"
           fontWeight="700"
           animationType="slideUp"
@@ -68,13 +68,14 @@ export const GalleryScene: React.FC<GallerySceneProps> = ({ isVertical = false }
 
         <ImageGallery
           images={GALLERY_IMAGES}
-          imageWidth={isVertical ? 180 : 240}
+          imageWidth={isVertical ? 260 : 240}
           aspectRatio="3:4"
+          columns={3}
         />
 
         <AnimatedText
           text="@dragondemadera"
-          fontSize={isVertical ? 44 : 48}
+          fontSize={isVertical ? 56 : 48}
           color={COLORS.accent}
           fontWeight="600"
           delay={fps * 1}

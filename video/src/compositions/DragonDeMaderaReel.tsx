@@ -1,4 +1,4 @@
-import { AbsoluteFill } from "remotion";
+import { AbsoluteFill, Audio, staticFile } from "remotion";
 import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
 import { slide } from "@remotion/transitions/slide";
@@ -15,6 +15,7 @@ export const DragonDeMaderaReel: React.FC = () => {
 
   return (
     <AbsoluteFill>
+      <Audio src={staticFile("musica.mp3")} volume={0.8} />
       <TransitionSeries>
         {/* Escena 1: Intro con logo y tagline */}
         <TransitionSeries.Sequence durationInFrames={SCENE_DURATION}>

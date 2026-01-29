@@ -229,6 +229,7 @@ export const WebRevealScene: React.FC<WebRevealSceneProps> = ({ isVertical = fal
               >
                 <OffthreadVideo
                   src={staticFile("web-scroll-club.webm")}
+                  startFrom={30}
                   style={{
                     width: "100%",
                     height: "100%",
