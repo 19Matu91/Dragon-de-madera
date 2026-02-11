@@ -35,75 +35,49 @@ export function ClubPage() {
               {texts.club.features.text2}
             </p>
             <SectionHeading>{texts.club.features.title}</SectionHeading>
-          </div>
 
-            <div
-              className={`grid md:grid-cols-2 w-full md:w-[50%] mx-auto gap-8 md:gap-0 ${SPACING.marginTopLg}`}
-            >
-              <div className={`${SPACING.spaceYMd} flex flex-col items-center justify-start ${SPACING.padXSm}`}>
-                <div className={`flex items-center ${SPACING.gapSm} ${SPACING.marginBottomSm} justify-center`}>
-                  <MeepleIcon className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-primary flex-shrink-0" />
-                  <h3 className={`text-2xl sm:text-3xl md:text-4xl font-bold font-display`}>
-                    {texts.club.rules.voluntariado.title}
-                  </h3>
-                </div>
-                <p className="text-base sm:text-lg md:text-xl font-medium text-center">{texts.club.rules.voluntariado.subtitle}</p>
-                <ul className={`${SPACING.spaceYXs} inline-block text-left`}>
-                  {texts.club.rules.voluntariado.items.map((item: string, i: number) => {
-                    const isLast = i === texts.club.rules.voluntariado.items.length - 1
-                    const parts = isLast ? item.split(', ') : [item]
-                    return (
-                      <li key={i} className={`text-sm sm:text-base md:text-lg text-balance flex ${SPACING.gapXs}`}>
-                        <span>-</span>
-                        <span>
-                          {isLast && parts.length > 1 ? (
-                            <>
-                              {parts[0]},
-                              <br />
-                              {parts.slice(1).join(', ')}
-                            </>
-                          ) : (
-                            item
-                          )}
-                        </span>
-                      </li>
-                    )
-                  })}
+            <div className={`grid md:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto ${SPACING.marginTopSm}`}>
+              {/* Voluntariado */}
+              <div className="bg-accent rounded-xl p-6 sm:p-8 shadow-md flex flex-col">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-display text-primary mb-2">
+                  {texts.club.rules.voluntariado.title}
+                </h3>
+                <p className="text-base sm:text-lg md:text-xl font-semibold text-primary/80 mb-5 sm:mb-6">
+                  {texts.club.rules.voluntariado.subtitle}
+                </p>
+                <ul className="space-y-3 sm:space-y-4">
+                  {texts.club.rules.voluntariado.items.map((item: string, i: number) => (
+                    <li key={i} className="flex gap-3 items-start">
+                      <MeepleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary/50 flex-shrink-0 mt-0.5" />
+                      <span className="text-sm sm:text-base md:text-lg leading-snug text-accent-foreground">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
-              <div className={`${SPACING.spaceYMd} flex flex-col items-center justify-start ${SPACING.padXSm}`}>
-                <div className={`flex items-center ${SPACING.gapSm} ${SPACING.marginBottomSm} justify-center`}>
-                  <MeepleIcon className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-primary flex-shrink-0" />
-                  <h3 className={`text-2xl sm:text-3xl md:text-4xl font-bold font-display`}>
-                    {texts.club.rules.convivencia.title}
-                  </h3>
-                </div>
-                <p className="text-base sm:text-lg md:text-xl font-medium text-center">{texts.club.rules.convivencia.subtitle}</p>
-                <ul className={`${SPACING.spaceYXs} inline-block text-left`}>
-                  {texts.club.rules.convivencia.items.map((item: string, i: number) => {
-                    const isLast = i === texts.club.rules.convivencia.items.length - 1
-                    const parts = isLast ? item.split(', ') : [item]
-                    return (
-                      <li key={i} className={`text-sm sm:text-base md:text-lg text-balance flex ${SPACING.gapXs}`}>
-                        <span>-</span>
-                        <span>
-                          {isLast && parts.length > 1 ? (
-                            <>
-                              {parts[0]},
-                              <br />
-                              {parts.slice(1).join(', ')}
-                            </>
-                          ) : (
-                            item
-                          )}
-                        </span>
-                      </li>
-                    )
-                  })}
+              {/* Convivencia */}
+              <div className="bg-primary rounded-xl p-6 sm:p-8 shadow-md flex flex-col">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-display text-primary-foreground mb-2">
+                  {texts.club.rules.convivencia.title}
+                </h3>
+                <p className="text-base sm:text-lg md:text-xl font-semibold text-primary-foreground/80 mb-5 sm:mb-6">
+                  {texts.club.rules.convivencia.subtitle}
+                </p>
+                <ul className="space-y-3 sm:space-y-4">
+                  {texts.club.rules.convivencia.items.map((item: string, i: number) => (
+                    <li key={i} className="flex gap-3 items-start">
+                      <MeepleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary-foreground/50 flex-shrink-0 mt-0.5" />
+                      <span className="text-sm sm:text-base md:text-lg leading-snug text-primary-foreground">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
+          </div>
         </section>
 
         {/* Local Section */}
