@@ -38,18 +38,18 @@ export function ClubPage() {
 
             <div className={`grid md:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto ${SPACING.marginTopSm}`}>
               {/* Voluntariado */}
-              <div className="bg-accent rounded-xl p-6 sm:p-8 shadow-md flex flex-col">
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-display text-primary mb-2">
+              <div className="bg-secondary rounded-xl p-6 sm:p-8 shadow-md flex flex-col">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold font-display text-secondary-foreground mb-2">
                   {texts.club.rules.voluntariado.title}
                 </h3>
-                <p className="text-base sm:text-lg md:text-xl font-semibold text-primary/80 mb-5 sm:mb-6">
+                <p className="text-base sm:text-lg md:text-xl font-semibold text-secondary-foreground/80 mb-5 sm:mb-6">
                   {texts.club.rules.voluntariado.subtitle}
                 </p>
                 <ul className="space-y-3 sm:space-y-4">
                   {texts.club.rules.voluntariado.items.map((item: string, i: number) => (
                     <li key={i} className="flex gap-3 items-start">
-                      <MeepleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-primary/50 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm sm:text-base md:text-lg leading-snug text-accent-foreground">
+                      <MeepleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-secondary-foreground/50 flex-shrink-0 mt-0.5" />
+                      <span className="text-sm sm:text-base md:text-lg leading-snug text-secondary-foreground">
                         {item}
                       </span>
                     </li>
